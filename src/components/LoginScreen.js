@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { loginCheck } from '../service/Api';
 
-import {setData, getData} from '../service/KeyChain';
+import KeyChain from '../service/KeyChain';
 
 export const LoginScreen = () => {
   const [username, setUsername] = useState('');
@@ -20,7 +21,7 @@ export const LoginScreen = () => {
 
   const passwordInputRef = useRef();
 
-  const handleSubmitPress = () => {
+  const handleSubmitPress = async () => {
     if (!username) {
       console.log("학번을 입력해주세요!!");
       return;
@@ -30,10 +31,16 @@ export const LoginScreen = () => {
       return;
     }
 
-    console.log(username, password);
     setLoading(true);
-
-
+    console.log(await loginCheck(username, password));
+    if (await loginCheck(username, password)) {
+      console.log(`!!!!Login Success!!!!`);
+      KeyChain.setData("username", username);
+      KeyChain.setData("password", password);
+      
+      navigation.replace('HomeScreen');
+    }
+    
   }
 
   return (

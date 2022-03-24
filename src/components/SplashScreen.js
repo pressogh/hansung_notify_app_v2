@@ -17,7 +17,7 @@ export const SplashScreen = ({navigation}) => {
       setAnimating(false);
       KeyChain.getData('username')
         .then((value) => {
-          console.log(value);
+          console.log(`In SplashScreen`, value);
           navigation.replace(
             (value === undefined || value === null) ? 'Auth' : 'HomeScreen'
           )
