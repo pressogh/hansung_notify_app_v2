@@ -9,7 +9,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import KeyChain from '../service/KeyChain';
 import { useUserState, useUserDispatch, getUser } from '../context/UserContext';
-import { getClassList } from '../service/Api';
+import { refreshClassList, getVideoList, getClassList } from '../service/Api';
+// import { DOMParser } from 'react-native-html-parser';
+import IDomParser from 'advanced-html-parser';
 
 export const HomeScreen = () => {
   const [classData, setclassData] = useState(null);
@@ -20,6 +22,8 @@ export const HomeScreen = () => {
   const { data: user, loading, error } = state.user;
   const fetchData = async () => {
     await getUser(dispatch);
+
+    refreshClassList();
     setclassData(await getClassList());
   };
 
